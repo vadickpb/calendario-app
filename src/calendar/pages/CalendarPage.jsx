@@ -1,8 +1,11 @@
 import React from 'react'
+import NavBar from '../components/NavBar'
 
 const CalendarPage = () => {
   return (
-    <h1>CalendarPage</h1>
+    <>
+      <NavBar />
+    </>
   )
 }
 

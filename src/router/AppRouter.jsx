@@ -6,7 +6,7 @@ import CalendarApp from '../CalendarApp'
 
 const AppRouter = () => {
 
-  const authStatus = 'no-authenticated'//'authenticated' //'no-authenticated'
+  const authStatus = 'authenticated'//'authenticated' //'no-authenticated'
   return (
     <Routes>
       {
