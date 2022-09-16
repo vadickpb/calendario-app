@@ -7,25 +7,17 @@ import NavBar from '../components/NavBar'
 import { localizer } from '../../helpers/calendarLocalizer'
 import { getMessages} from '../../helpers/getMessages'
 import CalendarEvent from '../components/CalendarEvent'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CalendarModal from '../components/CalendarModal'
+import useUiStore from '../../hooks/useUiStore'
+import useCalendarStore from '../../hooks/useCalendarStore'
 
-
-
-const events = [{
-  title: "cumpleaños del jefe",
-  notes: "comprar lo necesario",
-  start: new Date(),
-  end: addHours(new Date(), 2),
-  bgcolor: "#fafafa",
-  user: {
-    _id: 123,
-    name: 'vadick'
-  }
-}]
 
 const CalendarPage = () => {
 
+  const {events, activeEvent, setActiveEvent} = useCalendarStore();
+
+  const { openDateModal } = useUiStore()
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')  
 
   const eventStyleGetter = (event, start, end, isSelected) => {
@@ -41,10 +33,11 @@ const CalendarPage = () => {
   }
 
   const onDobleClickEvent = (event) => {
-    console.log({'dobleClick': event});
+    openDateModal()
   }
 
   const onSelect = (event) => {
+    setActiveEvent(event)
     console.log({'selected': event});
   }
 
