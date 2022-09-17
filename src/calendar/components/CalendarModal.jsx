@@ -31,7 +31,7 @@ Modal.setAppElement('#root');
 const CalendarModal = () => {
 
   const{isDateModalOpen, closeDateModal} = useUiStore()
-  const {activeEvent} = useCalendarStore()
+  const {activeEvent, startSavingEvent} = useCalendarStore()
 
   const [formSubmited, setFormSubmited] = useState(false)
   const [formValues, setFormValues] = useState({
@@ -63,7 +63,6 @@ const CalendarModal = () => {
   }
 
   const onDateChange = (event, changing) => {
-    console.log(event);
     setFormValues({
       ...formValues,
       [changing] : event
@@ -74,7 +73,7 @@ const CalendarModal = () => {
     closeDateModal()
   }
 
-  const onSubmitForm = (e) => {
+  const onSubmitForm = async(e) => {
     e.preventDefault();
     setFormSubmited(true)
     const difference = differenceInSeconds(formValues.end, formValues.start)
@@ -83,7 +82,12 @@ const CalendarModal = () => {
       console.log('error en fechas');
       return;
     }
-    if (formValues.title = '') return;
+    if (formValues.title.length === 0) return;
+    console.log(formValues);
+    await startSavingEvent(formValues);
+    closeDateModal();
+    setFormSubmited(false);
+
   }
 
   
@@ -124,7 +128,7 @@ const CalendarModal = () => {
             className='form-control'
             placeholder = 'Fecha de fin'
             selected={formValues.end}
-            onchange = {(event) => onDateChange(event, 'end')}
+            onChange = {(event) => onDateChange(event, 'end')}
             dateFormat="Pp"
             minDate={formValues.start}
             showTimeSelect
