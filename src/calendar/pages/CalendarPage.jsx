@@ -13,6 +13,7 @@ import FabAddNew from '../components/FabAddNew'
 
 import useUiStore from '../../hooks/useUiStore'
 import useCalendarStore from '../../hooks/useCalendarStore'
+import FabDeleteEvent from '../components/FabDeleteEvent'
 
 
 const CalendarPage = () => {
@@ -71,6 +72,7 @@ const CalendarPage = () => {
       <CalendarModal />
 
       <FabAddNew />
+      <FabDeleteEvent />
     </>
   )
 }
