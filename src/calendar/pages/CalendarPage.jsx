@@ -14,18 +14,24 @@ import FabAddNew from '../components/FabAddNew'
 import useUiStore from '../../hooks/useUiStore'
 import useCalendarStore from '../../hooks/useCalendarStore'
 import FabDeleteEvent from '../components/FabDeleteEvent'
+import { useEffect } from 'react'
+import useAuthStore from '../../hooks/useAuthStore'
 
 
 const CalendarPage = () => {
 
-  const {events, activeEvent, setActiveEvent} = useCalendarStore();
-
   const { openDateModal } = useUiStore()
+  const { user } = useAuthStore()
+  const {events, setActiveEvent, startLoadingEvents} = useCalendarStore();
+
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')  
 
+  
+  
   const eventStyleGetter = (event, start, end, isSelected) => {
+    const isMyEvent = (event.user._id === user.uid || event.user.id === user.uid);
     const style = {
-      backgroundColor: '#347CF7',
+      backgroundColor: isMyEvent ? '#347CF7' : '#465660',
       borderRadius: '0px',
       opacity: 0.8,
       color: 'white'
@@ -44,8 +50,15 @@ const CalendarPage = () => {
   }
 
   const onViewChange = (event) => {
-    localStorage.setItem('lastView', event)
+    localStorage.setItem('lastView', event);
+    setLastView(event)
   }
+
+  useEffect( () => {
+    startLoadingEvents();
+  }, [] )
+
+
 
   return (
     <>
